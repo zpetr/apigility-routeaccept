@@ -78,3 +78,5 @@ or update it
 		)
 	)     
 ```
+2. Create APIs and routes (you can use the same names for different routes now)
+3. Use it!
