@@ -11,7 +11,7 @@ Imagine that you have API ***car*** and API ***moto***. If you create route name
 
 So,
 
-1. request to */brand* with Accept header *application/vnd.**car**.v1+json* will give you something like:
+1. request to */brand* with Accept header "application/vnd.**car**.v1+json" will give you something like:
 ```json
 {
     "brand": [
@@ -27,7 +27,7 @@ So,
 	]
 }
 ```
-2. request to */brand* with Accept header *application/vnd.**moto**.v1+json* will give you something like:
+2. request to */brand* with Accept header "application/vnd.**moto**.v1+json" will give you something like:
 ```json
 {
     "brand": [
