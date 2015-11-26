@@ -45,13 +45,15 @@ class RouteAcceptListener extends AbstractListenerAggregate
      */
     protected function injectRouteMatches(RouteMatch $routeMatches)
     {
-        $controllerTest = $routeMatches->getParam('zf_ver_vendor').'\V'.$routeMatches->getParam('zf_ver_version');
-        if(strpos($routeMatches->getParam('controller'),$controllerTest) !== 0){
-            $controllerParts = explode('\\',$routeMatches->getParam('controller'));
-            $controllerParts[0] = $routeMatches->getParam('zf_ver_vendor');
-            $controllerParts[1] = 'V'.$routeMatches->getParam('zf_ver_version');
-            $controller = implode('\\',$controllerParts);
-            $routeMatches->setParam('controller',$controller);
-        }
+        if (!class_exists('\ZF\Apigility\Admin\Module', false)){
+			$controllerTest = $routeMatches->getParam('zf_ver_vendor').'\V'.$routeMatches->getParam('zf_ver_version');
+			if(strpos($routeMatches->getParam('controller'),$controllerTest) !== 0){
+				$controllerParts = explode('\\',$routeMatches->getParam('controller'));
+				$controllerParts[0] = $routeMatches->getParam('zf_ver_vendor');
+				$controllerParts[1] = 'V'.$routeMatches->getParam('zf_ver_version');
+				$controller = implode('\\',$controllerParts);
+				$routeMatches->setParam('controller',$controller);
+			}
+		}
     }
 }
