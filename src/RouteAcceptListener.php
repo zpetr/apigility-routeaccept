@@ -81,7 +81,7 @@ class RouteAcceptListener extends AbstractListenerAggregate
      *
      * @param  RouteMatch $routeMatches
      */
-    protected function injectRouteMatches(RouteMatch $routeMatches)
+    protected function injectRouteMatches(RouteMatch $routeMatches, $matches)
     {
         if (!class_exists('\ZF\Apigility\Admin\Module', false)){
 			$vendor = $matches['zf_ver_vendor'];
