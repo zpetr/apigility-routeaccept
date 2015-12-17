@@ -9,7 +9,13 @@ use Zend\Mvc\Router\RouteMatch;
 
 class RouteAcceptListener extends AbstractListenerAggregate
 {
-    /**
+    protected $headerName = 'accept';
+    
+    protected $regexes = array(
+        '#^text/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
+    );
+	
+	/**
      * @param EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
@@ -33,9 +39,41 @@ class RouteAcceptListener extends AbstractListenerAggregate
         if (!$request instanceof Request) {
             return;
         }
-        if($routeMatches->getParam('zf_ver_vendor') && $routeMatches->getParam('zf_ver_version')){
-            $this->injectRouteMatches($routeMatches);
+        
+        $headers = $request->getHeaders();
+        if (!$headers->has($this->headerName)) {
+            return;
         }
+        
+        $header = $headers->get($this->headerName);
+        
+        $matches = $this->parseHeaderForMatches($header->getFieldValue());
+        if (is_array($matches)) {
+            $this->injectRouteMatches($routeMatches, $matches);
+        }
+    }
+	
+	/**
+     * Parse the header for matches against registered regexes
+     *
+     * @param  string $value
+     * @return false|array
+     */
+    protected function parseHeaderForMatches($value)
+    {
+        $parts = explode(';', $value);
+        $contentType = array_shift($parts);
+        $contentType = trim($contentType);
+    
+        foreach (array_reverse($this->regexes) as $regex) {
+            if (!preg_match($regex, $contentType, $matches)) {
+                continue;
+            }
+    
+            return $matches;
+        }
+    
+        return false;
     }
 
     /**
@@ -46,14 +84,16 @@ class RouteAcceptListener extends AbstractListenerAggregate
     protected function injectRouteMatches(RouteMatch $routeMatches)
     {
         if (!class_exists('\ZF\Apigility\Admin\Module', false)){
-			$controllerTest = $routeMatches->getParam('zf_ver_vendor').'\V'.$routeMatches->getParam('zf_ver_version');
-			if(strpos($routeMatches->getParam('controller'),$controllerTest) !== 0){
-				$controllerParts = explode('\\',$routeMatches->getParam('controller'));
-				$controllerParts[0] = $routeMatches->getParam('zf_ver_vendor');
-				$controllerParts[1] = 'V'.$routeMatches->getParam('zf_ver_version');
-				$controller = implode('\\',$controllerParts);
-				$routeMatches->setParam('controller',$controller);
-			}
+			$vendor = $matches['zf_ver_vendor'];
+            $version = $matches['zf_ver_version'];
+            $controllerTest = $vendor.'\V'.$version;
+            if(strpos($routeMatches->getParam('controller'),$controllerTest) !== 0){
+                $controllerParts = explode('\\',$routeMatches->getParam('controller'));
+                $controllerParts[0] = $vendor;
+                $controllerParts[1] = 'V'.$version;
+                $controller = implode('\\',$controllerParts);
+                $routeMatches->setParam('controller',$controller);
+            }
 		}
     }
 }
