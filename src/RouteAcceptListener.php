@@ -12,7 +12,7 @@ class RouteAcceptListener extends AbstractListenerAggregate
     protected $headerName = 'accept';
     
     protected $regexes = array(
-        '#^text/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
+        '#^[a-z]+/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
     );
 	
 	/**
