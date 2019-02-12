@@ -33,6 +33,6 @@ class Module
         $app      = $e->getTarget();
         $events   = $app->getEventManager();
         $services = $app->getServiceManager();
-        $events->attach($services->get('zPetr\RouteAccept\RouteAcceptListener'));
+        $services->get('zPetr\RouteAccept\RouteAcceptListener')->attach($events);
     }
 }

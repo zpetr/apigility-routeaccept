@@ -3,27 +3,26 @@
     "type": "library",
     "description": "Routing based on Accept header for Apigility",
     "keywords" : [
-		"api",
-		"apigility",
-		"module",
-		"zf2",
-		"route",
-		"accept",
-		"header"
-	],
+        "api",
+        "apigility",
+        "module",
+        "zf2",
+        "route",
+        "accept",
+        "header"
+    ],
     "homepage": "https://github.com/zpetr/apigility-routeaccept",
     "license": "BSD",
     "authors": [
         {
-            "name": "Petr Glushchenko",
+            "name": "Petr Guelin (Glushchenko)",
             "email": "petr.glu@hotmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php" : ">=5.3.23",
-		"zfcampus/zf-apigility" : "~1.0",
-		"zendframework/zendframework" : "~2.3"
+        "zfcampus/zf-apigility" : "^1.4"
     },
     "autoload": {
         "psr-4": {

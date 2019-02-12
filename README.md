@@ -54,7 +54,7 @@ Define dependencies in your composer.json file
 ```json
 {
     "require": {
-        "zpetr/apigility-routeaccept" : "dev-master"
+        "zpetr/apigility-routeaccept" : "1.*"
     }
 }
 ```
@@ -68,7 +68,7 @@ or update it
     php composer.phar update
 
 ### Usage
-- Add *zPetr\\RouteAccept* to application.config.php:
+- Add *zPetr\\RouteAccept* to config/modules.config.php:
 ```php
 	return array(
     	'modules' => array(
