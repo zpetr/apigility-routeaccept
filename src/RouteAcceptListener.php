@@ -5,7 +5,6 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
 
 class RouteAcceptListener extends AbstractListenerAggregate
 {
@@ -31,7 +30,7 @@ class RouteAcceptListener extends AbstractListenerAggregate
     public function onRoute(MvcEvent $e)
     {
         $routeMatches = $e->getRouteMatch();
-        if (!$routeMatches instanceof RouteMatch) {
+        if ((!$routeMatches instanceof \Zend\Mvc\Router\RouteMatch) && (!$routeMatches instanceof \Zend\Router\Http\RouteMatch)) {
             return;
         }
 
@@ -44,7 +43,7 @@ class RouteAcceptListener extends AbstractListenerAggregate
         if (!$headers->has($this->headerName)) {
             return;
         }
-        
+
         $header = $headers->get($this->headerName);
         
         $matches = $this->parseHeaderForMatches($header->getFieldValue());
@@ -81,7 +80,7 @@ class RouteAcceptListener extends AbstractListenerAggregate
      *
      * @param  RouteMatch $routeMatches
      */
-    protected function injectRouteMatches(RouteMatch $routeMatches, $matches)
+    protected function injectRouteMatches($routeMatches, $matches)
     {
         if (!class_exists('\ZF\Apigility\Admin\Module', false)){
 			$vendor = $matches['zf_ver_vendor'];
