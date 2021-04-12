@@ -12,7 +12,7 @@
         "header"
     ],
     "homepage": "https://github.com/zpetr/apigility-routeaccept",
-    "license": "BSD",
+    "license": "MIT",
     "authors": [
         {
             "name": "Petr Guelin (Glushchenko)",
