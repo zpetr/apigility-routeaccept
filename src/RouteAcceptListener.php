@@ -93,6 +93,11 @@ class RouteAcceptListener extends AbstractListenerAggregate
                 $controller = implode('\\',$controllerParts);
                 $routeMatches->setParam('controller',$controller);
             }
+			if(strpos($routeMatches->getMatchedRouteName(),$vendor) !== 0){
+                $routeMatchedParts = explode('.',$routeMatches->getMatchedRouteName());
+				$routeMatchedParts[0] = $vendor;
+                $routeMatches->setMatchedRouteName(implode($routeMatchedParts));
+            }
 		}
     }
 }
